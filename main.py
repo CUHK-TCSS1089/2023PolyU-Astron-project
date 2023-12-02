@@ -133,32 +133,35 @@ def calculate_speed_in_kmps(feature_distance, GSD, time_difference):
 def calculate_average_speed():
     speeds = []
     for i in range(1, 42):
+        image = f'image{i}.jpg'
+        speed = predict_speed(image)
+        speeds.append(speed)
+    average_speed_prediction = sum(speeds) / len(speeds) / 1000
+    print("===================================================")
+    print("Average Speed (Machine Learning):", average_speed_prediction)
+    
+    speeds = []
+    for i in range(1, 42):
         image_1 = f'image{i}.jpg'
         image_2 = f'image{i+1}.jpg'
         speed = calculate_speed(image_1, image_2)
         speeds.append(speed)
     average_speed_1_2 = sum(speeds) / len(speeds)
+    print("Average Speed (Haversine Formula):", average_speed_1_2)
 
-    speeds = []
-    for i in range(1, 42):
-        image = f'image{i}.jpg'
-        speed = predict_speed(image)
-        speeds.append(speed)
-    average_speed_prediction = sum(speeds) / len(speeds) / 1000
-
-    image_1 = 'image1.jpg'
-    image_2 = 'image2.jpg'
+    image_1 = 'image3.jpg'
+    image_2 = 'image4.jpg'
     time_difference = get_time_difference(image_1, image_2)
     image_1_cv, image_2_cv = convert_to_cv(image_1, image_2)
     keypoints_1, keypoints_2, descriptors_1, descriptors_2 = calculate_features(image_1_cv, image_2_cv, 1000)
     matches = calculate_matches(descriptors_1, descriptors_2)
     coordinates_1, coordinates_2 = find_matching_coordinates(keypoints_1, keypoints_2, matches)
     average_feature_distance = calculate_mean_distance(coordinates_1, coordinates_2)
-    speed = calculate_speed_in_kmps(average_feature_distance, 12648, time_difference)
-    average_speed_feature_matching = speed
+    average_speed_feature_matching = calculate_speed_in_kmps(average_feature_distance, 12648, time_difference)
+    print("Average Speed (OpenCV Feature Matching):", average_speed_feature_matching)
 
-    # Calculate weighted average speed\
-    total_average_speed = (0.4 * average_speed_1_2) + (0.4 * average_speed_prediction) + (0.2 * average_speed_feature_matching)
+    # Calculate weighted average speed
+    total_average_speed = (0.4 * average_speed_1_2) + (0.4* average_speed_prediction) + (0.2 * average_speed_feature_matching)
 
     return total_average_speed
 if __name__ == "__main__":
@@ -172,8 +175,14 @@ if __name__ == "__main__":
             sleep(5)
 
         camera.close()
-        total_average_speed = calculate_average_speed()
-        print('Total Average Speed:', + total_average_speed)
     except Exception as e:
         print("Error:", str(e))
         camera.close()
+    
+    total_average_speed = calculate_average_speed()
+    total_average_speed_str = str(total_average_speed)
+    with open('result.txt', 'x') as Doc:
+        Doc.write(total_average_speed_str)
+        print('Total Average Speed:', + total_average_speed)
+        print("===================================================")
+    
