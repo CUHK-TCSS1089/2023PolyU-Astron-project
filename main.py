@@ -4,12 +4,6 @@ import cv2
 import math
 from pathlib import Path
 from math import sin, cos, sqrt, atan2, radians
-from sklearn.svm import SVC 
-from sklearn.metrics import accuracy_score, mean_squared_error
-from sklearn.impute import SimpleImputer
-from sklearn.model_selection import train_test_split
-from sklearn.svm import SVR
-from sklearn.linear_model import LinearRegression
 import pandas as pd
 import joblib
 from time import sleep
@@ -149,8 +143,8 @@ def calculate_average_speed():
     average_speed_1_2 = sum(speeds) / len(speeds)
     print("Average Speed (Haversine Formula):", average_speed_1_2)
 
-    image_1 = 'image3.jpg'
-    image_2 = 'image4.jpg'
+    image_1 = 'image12.jpg'
+    image_2 = 'image13.jpg'
     time_difference = get_time_difference(image_1, image_2)
     image_1_cv, image_2_cv = convert_to_cv(image_1, image_2)
     keypoints_1, keypoints_2, descriptors_1, descriptors_2 = calculate_features(image_1_cv, image_2_cv, 1000)
@@ -161,25 +155,13 @@ def calculate_average_speed():
     print("Average Speed (OpenCV Feature Matching):", average_speed_feature_matching)
 
     # Calculate weighted average speed
-    total_average_speed = (0.4 * average_speed_1_2) + (0.4* average_speed_prediction) + (0.2 * average_speed_feature_matching)
+    total_average_speed = (0.1 * average_speed_1_2) + (0.75* average_speed_prediction) + (0.15 * average_speed_feature_matching)
 
     return total_average_speed
 if __name__ == "__main__":
-    camera = PiCamera()
-    camera.resolution = (4056, 3040)
-    base_folder = Path(__file__).parent.resolve()
-
-    try:
-        for i in range(1, 43):
-            camera.capture(f"{base_folder}/image{i}.jpg")
-            sleep(5)
-
-        camera.close()
-    except Exception as e:
-        print("Error:", str(e))
-        camera.close()
-    
     total_average_speed = calculate_average_speed()
+    total = []
+    total.append(total_average_speed)
     total_average_speed_str = str(total_average_speed)
     with open('result.txt', 'x') as Doc:
         Doc.write(total_average_speed_str)
