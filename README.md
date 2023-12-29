@@ -1,3 +1,9 @@
+# We have use the miro and trello
+
+1. Trello::https://trello.com/b/KWmwRcZv/designing-thinking
+
+2. Miro::https://miro.com/app/board/uXjVN-Fzxmg=/?share_link_id=805306746210
+
 # Utilising Machine Learning, Computer Vision, and the Haversine Formula to Predict the International Space Station's Speed
 
 This repository contains a project that aims to predict the speed of the International Space Station (ISS) using machine learning, computer vision, and the Haversine formula. The goal is to develop an algorithm that accurately estimates the ISS's speed based on various data sources and techniques.
