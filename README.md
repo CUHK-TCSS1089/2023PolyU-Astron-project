@@ -4,7 +4,7 @@
 
 2. Miro::https://miro.com/app/board/uXjVN-Fzxmg=/?share_link_id=805306746210
 
-# Videos::https://youtu.be/CMExMAhNNs8
+# Updated FULL HD Videos::[https://youtu.be/CMExMAhNNs8](https://youtu.be/TK6uQJkOvOc)
 
 # Velocity Prediction of the International Space Station (ISS) Using Machine Learning (Polynomial Regression) and PyEphem
 
