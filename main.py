@@ -187,18 +187,29 @@ def calculate_average_speed():
     return average_speed_prediction
 # main execution
 if __name__ == "__main__":
-    for i in range(1, 42):
-        camera = PiCamera()
-        camera.resolution = (1, 1)
-        base_folder = Path(__file__).parent.resolve()
-        print('got')
+    camera = PiCamera()
+    camera.resolution = (4056,3040)
+    base_folder = Path(__file__).parent.resolve()
+    try:
+        for i in range(1, 43):
+            camera.capture(f"{base_folder}/image{i}.jpg")
+            sleep(5)
+        camera.close()
+    except Exception as e:
+        logger.error(f"{e.__class__.__name__}:{e}")
+    print('got')
     total_average_speed = calculate_average_speed()
     total = []
     total.append(total_average_speed)
     total_average_speed_str = str(total_average_speed)
     # writing results to a file
-    with open('result.txt', 'x') as Doc:
-        Doc.write(total_average_speed_str)
-        print('Total Average Speed:', + total_average_speed)
-        print("===================================================")
-    
+    try:
+        with open('result.txt', 'w') as doc:
+            doc.write(total_average_speed_str)
+            print('Total Average Speed:', total_average_speed)
+            print("===================================================")
+    except FileExistsError:
+        with open('result.txt', 'x') as doc:
+            doc.write(total_average_speed_str)
+            print('Total Average Speed:', total_average_speed)
+            print("===================================================")
